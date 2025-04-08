@@ -7,6 +7,8 @@ class ObjectIdField(serializers.Field):
         return str(value)
 
     def to_internal_value(self, data):
+        if not ObjectId.is_valid(data):
+            raise serializers.ValidationError("Invalid ObjectId")
         return ObjectId(data)
 
 class UserSerializer(serializers.ModelSerializer):
